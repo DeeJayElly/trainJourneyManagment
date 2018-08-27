@@ -1,0 +1,21 @@
+li {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: #ff3c76;
+  margin: 3px;
+  border-color: #ff3c76;
+}
+
+.glyphicon {
+  color: #ff3c76;
+  float: right;
+  cursor: pointer;
+}
+
+.full-width {
+  width: 100%;
+}
+

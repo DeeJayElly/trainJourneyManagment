@@ -1,0 +1,66 @@
+<div>
+  <ul>
+    <li *ngFor="let passenger of passengers">
+      {{passenger.firstName}} {{passenger.lastName}}
+      <{{passenger.email}}>
+      <span (click)="confirmRemovePassenger(template,passenger)" class="glyphicon glyphicon-remove"></span>
+    </li>
+  </ul>
+</div>
+<button type="button" class="btn btn-primary full-width" (click)="addPassenger(addTemplate)">Add Passenger</button>
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+<!-- confirmation template for deletion -->
+<ng-template #template>
+  <div *ngIf="passengerToRemove" class="modal-body text-center">
+    <p>Are you sure you want to remove {{passengerToRemove.email}} ?</p>
+    <button type="button" class="btn btn-primary" (click)="confirm()">Yes</button>
+    <button type="button" class="btn btn-default" (click)="decline()">No</button>
+  </div>
+</ng-template>
+<!-- template to add passengers -->
+<ng-template #addTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add Passenger</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
+      <div class="form-group"
+           [ngClass]="{'has-error': myForm.get('firstName').errors && (myForm.get('firstName').dirty || myForm.get('firstName').touched)}">
+        <label for="firstName">First Name:</label>
+        <input formControlName="firstName" type="text" class="form-control" id="firstName">
+        <div class="error"
+             *ngIf="myForm.get('firstName').hasError('required') && (myForm.get('firstName').dirty || myForm.get('firstName').touched)">
+          firstName is required
+        </div>
+      </div>
+      <div class="form-group"
+           [ngClass]="{'has-error': myForm.get('lastName').errors && (myForm.get('lastName').dirty || myForm.get('lastName').touched)}">
+        <label for="lastName">Last Name:</label>
+        <input formControlName="lastName" type="text" class="form-control" id="lastName">
+        <div class="error"
+             *ngIf="myForm.get('lastName').hasError('required') && (myForm.get('lastName').dirty || myForm.get('lastName').touched)">
+          lastName is required
+        </div>
+      </div>
+      <div class="form-group"
+           [ngClass]="{'has-error': myForm.get('email').errors && (myForm.get('email').dirty || myForm.get('email').touched)}">
+        <label for="email">Email:</label>
+        <input formControlName="email" type="email" class="form-control" id="email">
+        <div class="error"
+             *ngIf="myForm.get('email').hasError('pattern') && (myForm.get('email').dirty || myForm.get('email').touched)">
+          please enter valid email
+        </div>
+        <div class="error"
+             *ngIf="myForm.get('email').hasError('required') && (myForm.get('email').dirty || myForm.get('email').touched)">
+          email is required
+        </div>
+      </div>
+      <button type="submit" [disabled]="!myForm.valid" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</ng-template>
